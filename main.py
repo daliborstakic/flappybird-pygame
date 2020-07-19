@@ -2,6 +2,7 @@ import pygame
 import random
 import tkinter
 from tkinter import messagebox
+from pygame import mixer
 
 pygame.init()
 
@@ -128,6 +129,8 @@ def main():
 
         for pole in poles:
             pole.x -= pole.move_speed
+
+            pole.move_speed = (score // 10)+ 5
 
             render(pole, score_text)
 
