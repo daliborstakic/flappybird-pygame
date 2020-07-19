@@ -1,5 +1,7 @@
 import pygame
 import random
+import tkinter
+from tkinter import messagebox
 
 pygame.init()
 
@@ -31,6 +33,8 @@ HEIGHT = 500
 
 # Colors
 BLACK = (0, 0, 0)
+YELLOW = (100, 78, 14)
+WHITE = (255, 255, 255)
 
 # Setting up the screen
 surf = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -62,6 +66,36 @@ def render(pole):
     pygame.display.update()
 
 
+def restart_game():
+    global poles, bird
+    poles = []
+    poles = [Pole(WIDTH + POLE_IMAGE.get_width(), 0, HEIGHT / 2)]
+    bird = Bird(20, (HEIGHT - GROUND.get_height() - BIRD_IMAGE.get_height()) // 2)
+
+
+# Universal function for displaying text
+def display_text(content, color, x, y, size, font):
+    TITLE_TEXT = pygame.font.SysFont(font, size)
+    TITLE_TEXT.render(content, 1, color)
+    surf.blit(TITLE_TEXT, (x, y))
+
+
+# Displays a message using the Tkinter module
+def message_box(subject, content):
+    root = tkinter.Tk()
+    root.attributes("-topmost", True)
+    root.withdraw()
+    messagebox.showinfo(subject, content)
+
+
+# Handling the collision
+def has_collided(pole):
+    if (pole.x <= bird.x <= pole.x + POLE_IMAGE.get_width()) and (
+            bird.y <= pole.y1 - pole.size_between + POLE_IMAGE.get_height() or bird.y >= pole.y2):
+        return True
+    return False
+
+
 # Game loop
 def main():
     global bird
@@ -83,10 +117,16 @@ def main():
                 bird.y -= bird.jump_force
 
         for pole in poles:
-
             pole.x -= pole.move_speed
 
             render(pole)
+
+            if has_collided(pole):
+                pygame.time.delay(500)
+                message_box("You lost!", "Play again?")
+                pygame.time.delay(1000)
+                restart_game()
+                break
 
             if pole.x <= - POLE_IMAGE.get_width():
                 poles.pop(0)
