@@ -130,7 +130,7 @@ def main():
         for pole in poles:
             pole.x -= pole.move_speed
 
-            pole.move_speed = (score // 10)+ 5
+            pole.move_speed = (score // 10) + 5
 
             render(pole, score_text)
 
@@ -152,5 +152,5 @@ def main():
 
         bird.y = bird.y if bird.y >= 0 else 0
 
-
-main()
+if __name__ == '__main__':
+    main()
