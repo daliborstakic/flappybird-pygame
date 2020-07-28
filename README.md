@@ -1,4 +1,4 @@
-# flappybird-pygame
+# Flappy bird made using Pygame.
 An homage to Flappy Bird made using the Pygame module in Python.
 
 I've done this kind of game once using JavaScript and JQuery, so I wanted to see if I could do it using Python and Pygame.
